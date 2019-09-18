@@ -15,6 +15,48 @@
 
 var LBuaNews = new function(){
 
+  this.articleBody = function(){
+    var articleBodyInclosure = function(){
+      jQuery(function(){
+        var articleBody = jQuery("BODY > DIV[class*='site-content'] ARTICLE[class*='material'] > DIV[itemprop*='articleBody']");
+        if(articleBody.length == 1){
+          articleBody.children().each(function(index,element){
+            if(element.tagName == 'DIV' && element.className.indexOf('google') != -1){
+              var adsbygoogle = jQuery(element).has("INS[class*='adsbygoogle']");
+              if(adsbygoogle.length == 1){
+                element.style.display = 'none';
+              }
+            }
+          });
+        }
+      });
+    }
+    setTimeout(articleBodyInclosure,2000);
+  }
+
+  this.materialRelated = function(){
+    var materialRelatedInclosure = function(){
+      jQuery(function(){
+        var materialRelated = jQuery("BODY > DIV[class*='site-content'] DIV[class*='col-content-wrapper'] > DIV[class*='material-related']");
+        if(materialRelated.length == 1){
+          materialRelated.children().each(function(index,element){
+            if(element.tagName == 'NOINDEX'){
+              var advBanner = jQuery(element).find("DIV[class*='adv-banner']");
+              if(advBanner.length > 0){
+                var block = advBanner.parent();
+                var blockClassName = block.prop("class");
+                if(blockClassName == 'block'){
+                  block.hide();
+                }
+              }
+            }
+          });
+        }
+      });
+    }
+    setTimeout(materialRelatedInclosure,2000);
+  }
+
   this.colRight = function(){
     var colRightInclosure = function(){
       jQuery(function(){
@@ -39,4 +81,6 @@ var LBuaNews = new function(){
 
 }
 
+LBuaNews.articleBody();
+LBuaNews.materialRelated();
 LBuaNews.colRight();
